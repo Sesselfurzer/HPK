@@ -1,13 +1,17 @@
 package de.lab4inf.wrb;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class WRBObserver extends GrammarBaseVisitor<Double>{
 	/** "memory" for our calculator; variable/value pairs go here */
 	Map<String, Double> memory = new HashMap<String, Double>();
 	
-	/** LÉTTER '=' expr NEWLINE */
+	/** ID '=' expr ';'? */
 	@Override
 	public Double visitAssign(GrammarParser.AssignContext ctx) {
 		String id = ctx.ID().getText(); //LETTER is left-hand side of '='
@@ -15,7 +19,7 @@ public class WRBObserver extends GrammarBaseVisitor<Double>{
 		memory.put(id, value);				//store it in our memory
 		return value;
 	}
-	/** expr NEWLINE */
+	/** expr ';' */
     @Override
     public Double visitPrintExpr(GrammarParser.PrintExprContext ctx) {
     	Double value = visit(ctx.expr()); // evaluate the expr child
@@ -29,7 +33,7 @@ public class WRBObserver extends GrammarBaseVisitor<Double>{
         return Double.valueOf(ctx.number().getText());
     }
 
-    /** LETTER */
+    /** ID */
     @Override
     public Double visitId(GrammarParser.IdContext ctx) {
         String id = ctx.ID().getText();
@@ -72,8 +76,24 @@ public class WRBObserver extends GrammarBaseVisitor<Double>{
     /** ID '(' expr (',' expr)* ')' */
     @Override
     public Double visitFunction(GrammarParser.FunctionContext ctx) {
-   
-    	return 0.0;
+    	String name = ctx.ID().getText();
+    	int argCount = ctx.expr().size();
+    	double ergebnis=0;
+    	try {
+			for (Method mathMethod : Class.forName("java.lang.Math").getMethods()) {
+			    if (Arrays.stream(mathMethod.getParameterTypes()).allMatch(x -> x == double.class)) {
+			    	if(mathMethod.getName().equals(name)) {
+			    		Double[] argList = new Double[argCount];
+			    		for(int i=0;i<argCount;i++)
+			    			argList[i] = visit(ctx.expr(i));
+			    		ergebnis= (Double) mathMethod.invoke(null, (Object[]) argList);
+			    	}
+			    }
+			}
+		} catch (SecurityException | ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+    	return ergebnis;
     }
 	
 }

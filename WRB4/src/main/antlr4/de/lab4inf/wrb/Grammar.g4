@@ -6,9 +6,9 @@ fragment LETTER: [a-zA-Z];
 fragment DIGIT: [0-9];
 
 ID: LETTER (LETTER|DIGIT|'_')*;
-INTEGER: '-'? DIGIT+;
+INTEGER:  DIGIT+;
 floatnumber: INTEGER? '.' INTEGER*;
-number: floatnumber | INTEGER;
+number:  '-'? (floatnumber | INTEGER);
 
 prog: stat+ ;
 
@@ -21,9 +21,9 @@ expr: <assoc=right> expr ('^'|'**') expr			# Power
 	| expr op=('*'|'/') expr						# MulDiv
 	| expr op=('+'|'-') expr						# AddSub
 	| number										# float
-	| ID											# id
 	| ID '(' expr (',' expr)* ')'					# function
-	| '(' expr ')'									# parens
+	| ID											# id	
+	| '(' expr ')'								# parens
 	;
 
 MUL :   '*' ; // assigns token name to '*' used above in grammar

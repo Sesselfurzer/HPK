@@ -12,7 +12,6 @@ public class Main {
                 System.out.print(">");
                 String s = br.readLine();
  
-                //System.out.println(script.parse(s));
                 script.parse(s);
 
             } catch (Exception exception) {
