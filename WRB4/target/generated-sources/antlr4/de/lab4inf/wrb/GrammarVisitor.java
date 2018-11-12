@@ -23,6 +23,12 @@ public interface GrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNumber(GrammarParser.NumberContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link GrammarParser#newnumber}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNewnumber(GrammarParser.NewnumberContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link GrammarParser#prog}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -50,12 +56,25 @@ public interface GrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionassign(GrammarParser.FunctionassignContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link GrammarParser#othermathfunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOthermathfunction(GrammarParser.OthermathfunctionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code parens}
 	 * labeled alternative in {@link GrammarParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitParens(GrammarParser.ParensContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code mathfunc}
+	 * labeled alternative in {@link GrammarParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMathfunc(GrammarParser.MathfuncContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MulDiv}
 	 * labeled alternative in {@link GrammarParser#expr}.
@@ -84,6 +103,13 @@ public interface GrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitId(GrammarParser.IdContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code wrongparens}
+	 * labeled alternative in {@link GrammarParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWrongparens(GrammarParser.WrongparensContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code float}
 	 * labeled alternative in {@link GrammarParser#expr}.

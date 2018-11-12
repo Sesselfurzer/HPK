@@ -28,6 +28,16 @@ public interface GrammarListener extends ParseTreeListener {
 	 */
 	void exitNumber(GrammarParser.NumberContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link GrammarParser#newnumber}.
+	 * @param ctx the parse tree
+	 */
+	void enterNewnumber(GrammarParser.NewnumberContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#newnumber}.
+	 * @param ctx the parse tree
+	 */
+	void exitNewnumber(GrammarParser.NewnumberContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link GrammarParser#prog}.
 	 * @param ctx the parse tree
 	 */
@@ -74,6 +84,16 @@ public interface GrammarListener extends ParseTreeListener {
 	 */
 	void exitFunctionassign(GrammarParser.FunctionassignContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link GrammarParser#othermathfunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterOthermathfunction(GrammarParser.OthermathfunctionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#othermathfunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitOthermathfunction(GrammarParser.OthermathfunctionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code parens}
 	 * labeled alternative in {@link GrammarParser#expr}.
 	 * @param ctx the parse tree
@@ -85,6 +105,18 @@ public interface GrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParens(GrammarParser.ParensContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code mathfunc}
+	 * labeled alternative in {@link GrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterMathfunc(GrammarParser.MathfuncContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code mathfunc}
+	 * labeled alternative in {@link GrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitMathfunc(GrammarParser.MathfuncContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code MulDiv}
 	 * labeled alternative in {@link GrammarParser#expr}.
@@ -133,6 +165,18 @@ public interface GrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitId(GrammarParser.IdContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code wrongparens}
+	 * labeled alternative in {@link GrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterWrongparens(GrammarParser.WrongparensContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code wrongparens}
+	 * labeled alternative in {@link GrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitWrongparens(GrammarParser.WrongparensContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code float}
 	 * labeled alternative in {@link GrammarParser#expr}.

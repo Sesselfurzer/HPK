@@ -30,7 +30,7 @@ public class WRBObserver extends GrammarBaseVisitor<Double>{
     /** number */
     @Override
     public Double visitFloat(GrammarParser.FloatContext ctx) {
-        return Double.valueOf(ctx.number().getText());
+        return Double.valueOf(ctx.newnumber().getText());
     }
 
     /** ID */
@@ -70,7 +70,15 @@ public class WRBObserver extends GrammarBaseVisitor<Double>{
     /** '(' expr ')' */
     @Override
     public Double visitParens(GrammarParser.ParensContext ctx) {
+    	if(ctx.SUB()!=null)
+    		return -1*visit(ctx.expr());
         return visit(ctx.expr()); // return child expr's value
+    }
+    
+    /** ')' */
+    @Override
+    public Double visitWrongparens(GrammarParser.WrongparensContext ctx) {
+    	throw new IllegalArgumentException("Ungültige Eingabe");
     }
     
     /** ID '(' expr (',' expr)* ')' */
@@ -86,7 +94,22 @@ public class WRBObserver extends GrammarBaseVisitor<Double>{
 			    		Double[] argList = new Double[argCount];
 			    		for(int i=0;i<argCount;i++)
 			    			argList[i] = visit(ctx.expr(i));
-			    		ergebnis= (Double) mathMethod.invoke(null, (Object[]) argList);
+			    		if(name.equals("min")) {
+                            if(argCount<=1)throw new IllegalArgumentException("min benötigt mindestens 2 Parameter");
+                            ergebnis = Math.min(argList[0], argList[1]);
+                            for(int j=2;j<argCount;j++){
+                                ergebnis = Math.min(ergebnis, argList[j]);
+                            } 
+			    		 } else if(name.equals("max")) {
+	                        if(argList.length<=1)throw new IllegalArgumentException("max benötigt mindestens 2 Parameter");
+	                        ergebnis = Math.max(argList[0], argList[1]);
+	                        for(int j=2;j<argCount;j++){
+	                            ergebnis = Math.max(ergebnis, argList[j]);
+	                        } 
+	                     }
+	                     else {
+	                    	 ergebnis= (Double) mathMethod.invoke(null, (Object[]) argList);
+	                     }
 			    	}
 			    }
 			}
@@ -94,6 +117,19 @@ public class WRBObserver extends GrammarBaseVisitor<Double>{
 			e.printStackTrace();
 		}
     	return ergebnis;
+    }
+    
+    /** othermathfunction */
+    @Override
+    public Double visitMathfunc(GrammarParser.MathfuncContext ctx) {
+    	if(ctx.othermathfunction().LN()!=null) 
+    		return Math.log(visit(ctx.othermathfunction().expr()));
+    	else if(ctx.othermathfunction().LOG()!=null)
+    		return Math.log10(visit(ctx.othermathfunction().expr()));
+    	else if(ctx.othermathfunction().LOG2()!=null)
+    		return Math.log(visit(ctx.othermathfunction().expr()))/Math.log(2);
+    	return 0.0;
+    	//return Math.log(visit(ctx.expr()));
     }
 	
 }

@@ -2,7 +2,6 @@ package de.lab4inf.wrb;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.ConsoleErrorListener;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.io.IOUtils;
 
@@ -17,12 +16,24 @@ public class WRBScript implements Script{
     public double parse(String definition) {
         GrammarLexer lexer = new GrammarLexer(CharStreams.fromString(definition));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-        GrammarParser parser = new GrammarParser(tokens);
-        lexer.removeErrorListener(ConsoleErrorListener.INSTANCE);
-        parser.removeErrorListener(ConsoleErrorListener.INSTANCE);
-        ParseTree tree = parser.prog();
+        lexer.removeErrorListeners();
+		lexer.addErrorListener(WRBConsoleErrorListener.INSTANCE);
         
-        return Observer.visit(tree);
+		GrammarParser parser = new GrammarParser(tokens);
+        parser.setTokenStream(tokens);
+		parser.removeErrorListeners();
+		parser.addErrorListener(WRBConsoleErrorListener.INSTANCE);
+        
+        ParseTree tree;
+        Double ergebnis;
+        
+        try {
+        	tree = parser.prog();
+        	ergebnis = Observer.visit(tree);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Ungültige Eingabe!");
+		}
+        return ergebnis;
         
     }
 
