@@ -8,6 +8,7 @@ fragment DIGIT: [0-9];
 LOG2 : 'log2' | 'ld' | 'lb' ;
 LN:	   'ln' | 'logE';
 LOG:   'log';
+SIN:   'sin';
 
 ID: LETTER (LETTER|DIGIT|'_')*;
 INTEGER:  DIGIT+;
@@ -24,7 +25,8 @@ stat: expr ';'?								# printExpr
 	
 othermathfunction:  LOG2 '(' expr ')'
 				 |  LN '(' expr ')'
-				 |  LOG '(' expr ')';
+				 |  LOG '(' expr ')'
+				 |  SIN '(' expr ')';
 
 expr: <assoc=right> expr ('^'|'**') expr			# Power
 	| expr op=('*'|'/') expr						# MulDiv

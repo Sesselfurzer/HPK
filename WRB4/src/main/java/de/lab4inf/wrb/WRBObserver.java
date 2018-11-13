@@ -12,7 +12,6 @@ public class WRBObserver extends GrammarBaseVisitor<Double>{
 	/** "memory" for our calculator; variable/value pairs go here */
 	Map<String, Double> memory = new HashMap<String, Double>();
 	Map<String, WRBFunction> functionmemory = new HashMap<String, WRBFunction>(); 
-	Map<String, Double> tempmemory = new HashMap<String, Double>();
 	
 	/** ID '=' expr ';'? */
 	@Override
@@ -40,7 +39,6 @@ public class WRBObserver extends GrammarBaseVisitor<Double>{
     @Override
     public Double visitId(GrammarParser.IdContext ctx) {
         String id = ctx.ID().getText();
-        if (tempmemory.containsKey(id))return tempmemory.get(id);
         if ( memory.containsKey(id) ) return memory.get(id);
         return (double) 0;
     }
@@ -149,7 +147,9 @@ public class WRBObserver extends GrammarBaseVisitor<Double>{
     /** othermathfunction */
     @Override
     public Double visitMathfunc(GrammarParser.MathfuncContext ctx) {
-    	if(ctx.othermathfunction().LN()!=null) 
+    	if(ctx.othermathfunction().SIN()!=null)
+    		return Math.sin(visit(ctx.othermathfunction().expr()));
+    	else if(ctx.othermathfunction().LN()!=null) 
     		return Math.log(visit(ctx.othermathfunction().expr()));
     	else if(ctx.othermathfunction().LOG()!=null)
     		return Math.log10(visit(ctx.othermathfunction().expr()));

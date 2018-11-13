@@ -11,7 +11,7 @@ public class WRBFunction implements Function{
 	String[] ArgList;
 	ParseTree Body;
 	WRBObserver observer;
-	//Map<String, Double> memory = new HashMap<String, Double>();
+	Map<String, Double> tmpmemory;
 	
 	public WRBFunction(String fctName,String[] fctArgList,ParseTree fctBody, WRBObserver fctObserver) {
 		Name = fctName;
@@ -24,16 +24,14 @@ public class WRBFunction implements Function{
 	@Override
 	public double eval(final double... args) {
 		double ergebnis=0;
+		tmpmemory = new HashMap<String, Double>(observer.memory);
 		if(args.length == ArgList.length) {
 			for(int i=0; i<args.length;i++) {
-				observer.tempmemory.put(ArgList[i], args[i]);
+				observer.memory.put(ArgList[i], args[i]);
 			}
 			ergebnis=observer.visit(Body);
-			for(int i = 0; i < args.length; i++)
-			{				
-				observer.tempmemory.remove(ArgList[i]);	
-			}	
 		}
+		observer.memory = tmpmemory;
 		return ergebnis;
 	}
 }
