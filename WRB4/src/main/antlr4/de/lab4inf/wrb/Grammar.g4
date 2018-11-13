@@ -12,8 +12,8 @@ LOG:   'log';
 ID: LETTER (LETTER|DIGIT|'_')*;
 INTEGER:  DIGIT+;
 floatnumber: INTEGER? '.' INTEGER*;
-number:  '-'? (floatnumber | INTEGER);
-newnumber: number ('e' ('+' | '-') number)?;
+number:   (floatnumber | INTEGER);
+newnumber: '-'? number ('e' ('+' | '-') number)?;
 
 prog: stat+;
 

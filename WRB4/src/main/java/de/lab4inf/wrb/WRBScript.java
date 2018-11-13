@@ -44,7 +44,7 @@ public class WRBScript implements Script{
 
     @Override
     public Set<String> getFunctionNames() {
-        return null;
+        return Observer.functionmemory.keySet();
     }
 
 
@@ -55,12 +55,14 @@ public class WRBScript implements Script{
 
     @Override
     public void setFunction(String name, Function fct) {
-    	
+    	Observer.functionmemory.put(name, (WRBFunction) fct);
     }
 
     @Override
     public Function getFunction(String name) {
-        return null;
+    	if(!Observer.functionmemory.containsKey(name))
+    		throw new IllegalArgumentException();
+        return Observer.functionmemory.get(name);
     }
 
     @Override
@@ -76,4 +78,5 @@ public class WRBScript implements Script{
     public void setVariable(String name, double value) {
         Observer.memory.put(name, value);
     }
+    
 }
