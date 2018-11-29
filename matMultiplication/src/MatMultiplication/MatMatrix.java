@@ -36,30 +36,16 @@ public class MatMatrix {
 		return matrix[0].length;
 	}
 	
-	public boolean equalMatrix(MatMatrix zweiteMatrix) {
-		if(getZeilen() != zweiteMatrix.getZeilen())
-			return false;
-		else if(getSpalten() != zweiteMatrix.getSpalten())
-			return false;
-		
-		int zeilen = getZeilen();
-		int spalten = getSpalten();
-		
-		for(int i=0 ; i<zeilen ; i++) {
-			for(int j=0 ; j<spalten ; j++) {
-				if(Math.round(this.matrix[i][j]) != Math.round(zweiteMatrix.getValue(i,j)))
-					return false;
-			}
-		}
-		return true;
-	}
-	
 	public double[][] getMatrix(){
 		return matrix;
 	}
 	
 	public void setValue(int zeile, int spalte, double value) {
 		matrix[zeile][spalte]=value;
+	}
+	
+	public void addValue(int zeile, int spalte, double value) {
+		matrix[zeile][spalte]+=value;
 	}
 	
 	public double getValue(int zeile, int spalte) {

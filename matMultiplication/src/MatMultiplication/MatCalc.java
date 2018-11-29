@@ -1,5 +1,6 @@
 package MatMultiplication;
 
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -7,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 public class MatCalc {
 	
 	public static MatMatrix serielleBerechnung(MatMatrix ersteMatrix, MatMatrix zweiteMatrix){
+		Objects.requireNonNull(ersteMatrix, "ersteMatrix = null");
+		Objects.requireNonNull(zweiteMatrix, "zweiteMatrix = null");
 		int mLength = ersteMatrix.getSpalten();
 		if(mLength!= zweiteMatrix.getZeilen())
 			throw new IllegalArgumentException("Incorrect Matrix sizes");
@@ -27,6 +30,8 @@ public class MatCalc {
 	}
 	
 	public static MatMatrix paralleleBerechnung(MatMatrix ersteMatrix, MatMatrix zweiteMatrix){
+		Objects.requireNonNull(ersteMatrix, "ersteMatrix = null");
+		Objects.requireNonNull(zweiteMatrix, "zweiteMatrix = null");
 		int mLength = ersteMatrix.getSpalten();
 		if(mLength!= zweiteMatrix.getZeilen())
 			throw new IllegalArgumentException("Incorrect Matrix sizes");
@@ -45,13 +50,15 @@ public class MatCalc {
 		for(int i = 0; i < zeilen; i++)
     	{
     		final int I = i;
+    		double[] aI = ersteMatrix.getMatrix()[i];
     		Thread t = new Thread(new Runnable() {
 				@Override
 				public void run() {
 					for(int j = 0; j < spalten; j++) {
+						double[] dj = d.getMatrix()[j];
     					double temp = 0;
     					for(int k = 0; k < mLength; k++) {
-    						temp += ersteMatrix.getValue(I, k) * d.getValue(j, k);
+    						temp += aI[k] * dj[k];
     					}
     					ergebnis.getMatrix()[I][j] = temp;
     				}
@@ -73,6 +80,8 @@ public class MatCalc {
 	}
 	
 	public static MatMatrix DivideandConquer(MatMatrix ersteMatrix, MatMatrix zweiteMatrix) {
+		Objects.requireNonNull(ersteMatrix, "ersteMatrix = null");
+		Objects.requireNonNull(zweiteMatrix, "zweiteMatrix = null");
 		int mLength = ersteMatrix.getSpalten();
 		if(mLength!= zweiteMatrix.getZeilen())
 			throw new IllegalArgumentException("Incorrect Matrix sizes");
@@ -83,6 +92,7 @@ public class MatCalc {
 		MatMatrix[][][] temp = new MatMatrix[2][2][2];
 		MatMatrix[][] tempErgebnis = new MatMatrix[2][2];
 		
+		MatRessourcePool pool = new MatRessourcePool();
 		ExecutorService executor = Executors.newCachedThreadPool();
 		
 		for(int i = 0;i<2;i++) {
@@ -94,21 +104,29 @@ public class MatCalc {
 				temp[i][j][1] = new MatMatrix();
 				tempErgebnis[i][j] = new MatMatrix();
 				
-				Thread t = new Thread(new Runnable() {
+				Thread t1 = new Thread(new Runnable() {
 					@Override
 					public void run() {
-						if(ersteMatrix.getSpalten()>512) {
-							temp[I][J][0].setMatrix(paralleleBerechnung(m1[I][0], m2[0][J]));
-							temp[I][J][1].setMatrix(paralleleBerechnung(m1[I][1], m2[1][J]));
-						}else {
-							temp[I][J][0].setMatrix(serielleBerechnung(m1[I][0], m2[0][J]));
-							temp[I][J][1].setMatrix(serielleBerechnung(m1[I][1], m2[1][J]));
-						}
-						tempErgebnis[I][J].setMatrix(addMatrix(temp[I][J][0],temp[I][J][1]));
+						temp[I][J][0].setMatrix(serielleBerechnung(m1[I][0], m2[0][J]));
+						pool.release(temp[I][J][0], I*4+J*2);
 					}
 				});	
-
-				executor.execute(t);
+				t1.start();
+				Thread t2 = new Thread(new Runnable() {
+					@Override
+					public void run() {
+						temp[I][J][1].setMatrix(serielleBerechnung(m1[I][1], m2[1][J]));
+						pool.release(temp[I][J][1], I*4+J*2+1);
+					}
+				});	
+				t2.start();
+				Thread t3 = new Thread(new Runnable() {
+					@Override
+					public void run() {
+						tempErgebnis[I][J].setMatrix(addMatrix(pool.require(I*4+J*2),pool.require(I*4+J*2+1)));
+					}
+				});	
+				executor.execute(t3);
 			}
 		}
 		

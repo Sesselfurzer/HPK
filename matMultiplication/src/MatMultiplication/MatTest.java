@@ -5,7 +5,7 @@ import org.junit.Test;
 
 
 public class MatTest {
-	final double eps = 1.E-8;
+	final double eps = 1.E-2;
 
 	@Test
 	public void testMatrix() throws Exception {
@@ -22,11 +22,17 @@ public class MatTest {
 			{43,50}
 		});
 		MatMatrix ergebnis=MatCalc.serielleBerechnung(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 		ergebnis=MatCalc.paralleleBerechnung(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 		ergebnis=MatCalc.DivideandConquer(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 	}
 	
 	@Test
@@ -44,11 +50,17 @@ public class MatTest {
 			{15,14,13}
 		});
 		MatMatrix ergebnis=MatCalc.serielleBerechnung(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 		ergebnis=MatCalc.paralleleBerechnung(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 		ergebnis=MatCalc.DivideandConquer(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 	}
 
 	@Test
@@ -68,11 +80,17 @@ public class MatTest {
 			{14, 6}
 		});
 		MatMatrix ergebnis=MatCalc.serielleBerechnung(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 		ergebnis=MatCalc.paralleleBerechnung(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 		ergebnis=MatCalc.DivideandConquer(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 	}
 	
 	@Test
@@ -94,11 +112,17 @@ public class MatTest {
 			{12,13,18}
 		});
 		MatMatrix ergebnis=MatCalc.serielleBerechnung(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 		ergebnis=MatCalc.paralleleBerechnung(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 		ergebnis=MatCalc.DivideandConquer(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -171,11 +195,17 @@ public class MatTest {
 			{18,11,19}
 		});
 		MatMatrix ergebnis=MatCalc.serielleBerechnung(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 		ergebnis=MatCalc.paralleleBerechnung(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 		ergebnis=MatCalc.DivideandConquer(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 	}
 	
 	@Test
@@ -185,60 +215,73 @@ public class MatTest {
 		MatMatrix zweiteMatrix = new MatMatrix(randomZahl,randomZahl+1);
 		MatMatrix erwartetErgebnis = MatCalc.serielleBerechnung(ersteMatrix, zweiteMatrix);
 		MatMatrix ergebnis=MatCalc.paralleleBerechnung(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 		ergebnis = MatCalc.DivideandConquer(ersteMatrix, zweiteMatrix);
-		Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));	
+		for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+			Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+		}
 	}
 
 	@Test
 	public void testMatrixSpeedup() throws Exception{
-		int[] dimension = {64,128,256,512,768,1024,1536,2048};
-		int[] repeats = {100,50,25,12,5,2,1,1};
+		int[] dimension = {64,128,256,512,768,1024,1536,2048,4096};
+		int repeats = 256;
 		MatMatrix erwartetErgebnis = new MatMatrix();
 		MatMatrix ergebnis = new MatMatrix();
 		
 		System.err.println("repitions |  dimension  |  seriel  | parallel |  speedup  | DivideandConquer | speedup");
 		System.err.println("----------+-------------+----------+----------+-----------+------------------+----------");
 		
-		for(int i=0;i<8;i++) {
-			MatMatrix ersteMatrix = new MatMatrix(dimension[i]+1,dimension[i]);
+		for(int i=0;i<9;i++) {
+			MatMatrix ersteMatrix = new MatMatrix(dimension[i]-1,dimension[i]);
 			MatMatrix zweiteMatrix = new MatMatrix(dimension[i],dimension[i]+1);
 			long time;
-			double SCALED = -1000*repeats[i];
+			double SCALED = -1000000*repeats;
 			
 			time=System.nanoTime();
-			for(int j =0; j<repeats[i];j++) {
+			for(int j =0; j<repeats;j++) {
 				erwartetErgebnis=MatCalc.serielleBerechnung(ersteMatrix, zweiteMatrix);
 			}
 			time-=System.nanoTime();
 			long timeSeriell=time;
 			
 			time=System.nanoTime();
-			for(int j =0; j<repeats[i];j++) {
+			for(int j =0; j<repeats;j++) {
 				ergebnis=MatCalc.paralleleBerechnung(ersteMatrix, zweiteMatrix);
 			}
 			time-=System.nanoTime();
 			long timeParallel=time;
 			
-			Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));	
+			for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+				Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+			}
 			
 			time=System.nanoTime();
-			for(int j =0; j<repeats[i];j++) {
+			for(int j =0; j<repeats;j++) {
 				ergebnis=MatCalc.DivideandConquer(ersteMatrix, zweiteMatrix);
 			}
 			time-=System.nanoTime();
 			long timeDivideandConquer=time;
 			
-			Assert.assertTrue(ergebnis.equalMatrix(erwartetErgebnis));	
+			for(int j=0; j<erwartetErgebnis.getZeilen(); j++) {
+				Assert.assertArrayEquals(erwartetErgebnis.getMatrix()[j], ergebnis.getMatrix()[j], eps);
+			}
 			
-			timeSeriell /= SCALED;
-	        timeParallel /= SCALED;
-	        timeDivideandConquer /= SCALED;
+			double ts = (double)timeSeriell / SCALED;
+			ts/=1000;
+	        double tp = (double)timeParallel / SCALED;
+	        tp/=1000;
+	        double dncs= (double)timeDivideandConquer / SCALED;
+	        dncs/=1000;
 	        double speedup = (double)timeSeriell/(double)timeParallel;
 	        double speedup2 = (double)timeSeriell/(double)timeDivideandConquer;
 			
-			System.err.println(String.format("%9d | %4d x %4d | %8d | %8d | %9f | %16d | %9f"
-			, repeats[i], dimension[i] , dimension[i]+1, timeSeriell, timeParallel, speedup, timeDivideandConquer, speedup2));
+			System.err.println(String.format("%9d | %4d x %4d | %8.4f | %8.4f | %9.4f | %16.4f | %9.4f"
+			, repeats, dimension[i]-1 , dimension[i]+1, ts, tp, speedup, dncs, speedup2));
+			
+			repeats/=2;
 
 		}
 	}
